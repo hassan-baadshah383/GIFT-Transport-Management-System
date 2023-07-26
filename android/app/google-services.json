@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "299896259972",
+    "firebase_url": "https://gtms-fd7f3-default-rtdb.firebaseio.com",
+    "project_id": "gtms-fd7f3",
+    "storage_bucket": "gtms-fd7f3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:299896259972:android:3c2c820ae615b9389849d1",
+        "android_client_info": {
+          "package_name": "com.example.gtms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "299896259972-o02mjcg4dr5emebs13vtbc9jpdjkecbk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLhFJA9T5knUwWcBQD-747B5oyMx45FY0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "299896259972-o02mjcg4dr5emebs13vtbc9jpdjkecbk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
