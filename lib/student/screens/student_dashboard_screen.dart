@@ -30,7 +30,7 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
     });
     await Future.delayed(Duration(seconds: 2));
     final authId = Provider.of<Auth>(context, listen: false).userId;
-    await Provider.of<StudentData>(context, listen: false).fetchStudent(authId);
+    await Provider.of<StudentData>(context, listen: false).fetchStudent(authId!);
     bool isFeePaid = Provider.of<StudentData>(context, listen: false).isFeePaid;
     setState(() {
       _isLoading = false;

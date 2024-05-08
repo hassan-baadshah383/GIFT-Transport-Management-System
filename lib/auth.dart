@@ -8,23 +8,23 @@ import '/student/providers/students.dart';
 import 'student/models/exception.dart';
 
 class Auth extends StudentData {
-  String tokken;
-  DateTime expiryDate;
-  String userId;
-  Timer authTime;
+  String? tokken;
+  DateTime? expiryDate;
+  String? userId;
+  Timer? authTime;
   //bool isChecked;
   bool isAdmin = false;
   bool isStudent = false;
   bool isDriver = false;
-  BuildContext context;
+  late BuildContext context;
 
   bool get isAuth {
     return token != null;
   }
 
-  String get token {
+  String? get token {
     if (expiryDate != null &&
-        expiryDate.isAfter(DateTime.now()) &&
+        expiryDate!.isAfter(DateTime.now()) &&
         tokken != null) {
       return tokken;
     }
@@ -47,13 +47,13 @@ class Auth extends StudentData {
       }
       await loginUser(email, password, false, true, false).then((value) =>
           addStudent(
-              name, rollNo, email, password, phone, cnic, location, userId));
+              name, rollNo, email, password, phone, cnic, location, userId!));
     } catch (error) {
       throw error;
     }
   }
 
-  Future<String> loginUser(String email, String password, bool admin,
+  Future<String?> loginUser(String email, String password, bool admin,
       bool student, bool driver) async {
     const url =
         'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDNqtgTjLOQLiaw_zsZp0rIonsB2GQKJf0';
@@ -91,11 +91,9 @@ class Auth extends StudentData {
   Future<bool> checkStudent(String email) async {
     const url = 'https://gtms-fd7f3-default-rtdb.firebaseio.com/students.json';
     final responce = await https.get(Uri.parse(url));
-    final extractedData = json.decode(responce.body) as Map<String, dynamic>;
-    if (extractedData == null) {
-      return false;
-    }
-    bool result = false;
+    final extractedData = json.decode(responce.body);
+    if(extractedData != null && extractedData is Map<String, dynamic>){
+      bool result = false;
     extractedData.forEach(
       (id, data) {
         if (data['email'] == email) {
@@ -103,18 +101,17 @@ class Auth extends StudentData {
         }
       },
     );
-
     return result;
+    }
+    return false;
   }
 
   Future<bool> checkDriver(String email) async {
     const url = 'https://gtms-fd7f3-default-rtdb.firebaseio.com/drivers.json';
     final responce = await https.get(Uri.parse(url));
-    final extractedData = json.decode(responce.body) as Map<String, dynamic>;
-    if (extractedData == null) {
-      return false;
-    }
-    bool result = false;
+    final extractedData = json.decode(responce.body);
+    if(extractedData != null && extractedData is Map<String, dynamic>){
+      bool result = false;
     extractedData.forEach(
       (id, data) {
         if (data['email'] == email) {
@@ -122,8 +119,9 @@ class Auth extends StudentData {
         }
       },
     );
-    print({result, 'Result'});
     return result;
+    }
+    return false;
   }
 
   Future<void> logout() async {
@@ -131,7 +129,7 @@ class Auth extends StudentData {
     expiryDate = null;
     userId = null;
     if (authTime != null) {
-      authTime.cancel();
+      authTime!.cancel();
       authTime = null;
     }
     notifyListeners();

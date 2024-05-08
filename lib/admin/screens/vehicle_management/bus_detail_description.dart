@@ -8,10 +8,10 @@ class BusDetailDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     final details =
-        ModalRoute.of(context).settings.arguments as Map<String, Object>;
-    final busNumber = details['number'];
-    final busDriver = details['driver'];
-    final busRoute = details['route'];
+        ModalRoute.of(context)!.settings.arguments as Map<String, Object>;
+    final String busNumber = details['number'].toString();
+    final String busDriver = details['driver'].toString();
+    final String busRoute = details['route'].toString();
     final busDate = details['date'];
     final busIsRented = details['isRented'];
 
@@ -168,7 +168,7 @@ class BusDetailDescription extends StatelessWidget {
                             child: Text(details.isEmpty
                                 ? '...'
                                 : DateFormat.yMMMMd()
-                                    .format(busDate)
+                                    .format(busDate as DateTime)
                                     .toString())),
                       )
                     ],

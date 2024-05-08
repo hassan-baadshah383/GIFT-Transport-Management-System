@@ -8,7 +8,7 @@ class RoutesDetailWidget extends StatefulWidget {
   final String id;
   final String name;
 
-  RoutesDetailWidget({this.id, this.name});
+  RoutesDetailWidget({required this.id, required this.name});
 
   @override
   State<RoutesDetailWidget> createState() => _RoutesDetailWidgetState();

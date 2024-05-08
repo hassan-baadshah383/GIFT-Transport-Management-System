@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:gtms/driver/providers/drivers.dart';
 import 'package:gtms/student/providers/students.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +15,7 @@ class _EditStudentScreenState extends State<EditStudentScreen> {
   bool _isLoading = false;
   final _form = GlobalKey<FormState>();
 
-  Map<String, Object> newStudentData = {
+  Map<String, dynamic> newStudentData = {
     'id': '',
     'name': '',
     'rollNo': '',
@@ -30,8 +29,7 @@ class _EditStudentScreenState extends State<EditStudentScreen> {
   void didChangeDependencies() {
     if (isEdit) {
       final product =
-          ModalRoute.of(context).settings.arguments as Map<String, Object>;
-      if (product != null) {
+          ModalRoute.of(context)!.settings.arguments as Map<String, Object>;
         newStudentData = {
           'id': product['id'],
           'name': product['name'],
@@ -41,15 +39,14 @@ class _EditStudentScreenState extends State<EditStudentScreen> {
           'phone': product['phone'],
           'location': product['location'],
         };
-      }
     }
     isEdit = false;
     super.didChangeDependencies();
   }
 
   Future<void> submit() async {
-    final validate = _form.currentState.validate();
-    _form.currentState.save();
+    final validate = _form.currentState!.validate();
+    _form.currentState!.save();
     if (validate) {
       final studData = Provider.of<StudentData>(context, listen: false);
 
@@ -99,7 +96,7 @@ class _EditStudentScreenState extends State<EditStudentScreen> {
                     decoration: const InputDecoration(labelText: 'Name'),
                     textCapitalization: TextCapitalization.words,
                     validator: (value) {
-                      if (value.length <= 5) {
+                      if (value!.length <= 5) {
                         return 'Username is too short!';
                       }
                       return null;
@@ -114,7 +111,7 @@ class _EditStudentScreenState extends State<EditStudentScreen> {
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.number,
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Please enter your Roll No.';
                       }
                       return null;
@@ -129,7 +126,7 @@ class _EditStudentScreenState extends State<EditStudentScreen> {
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
-                      if (value.isEmpty || !value.contains('@gift.edu.pk')) {
+                      if (value!.isEmpty || !value.contains('@gift.edu.pk')) {
                         return 'Invalid email!';
                       }
                       return null;
@@ -143,7 +140,7 @@ class _EditStudentScreenState extends State<EditStudentScreen> {
                     textInputAction: TextInputAction.next,
                     decoration: const InputDecoration(labelText: 'CNIC'),
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Please enter your CNIC';
                       }
                       if (value.length != 13) {
@@ -160,7 +157,7 @@ class _EditStudentScreenState extends State<EditStudentScreen> {
                     textInputAction: TextInputAction.next,
                     decoration: const InputDecoration(labelText: 'Phone'),
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Please enter your phone';
                       }
                       if (value.length != 11) {
@@ -177,7 +174,7 @@ class _EditStudentScreenState extends State<EditStudentScreen> {
                     textInputAction: TextInputAction.done,
                     decoration: const InputDecoration(labelText: 'Location'),
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Please enter your residential area';
                       }
                       return null;

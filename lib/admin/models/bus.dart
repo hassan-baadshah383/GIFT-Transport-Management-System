@@ -9,11 +9,11 @@ class Bus with ChangeNotifier {
   bool isRented;
 
   Bus({
-    @required this.id,
-    @required this.number,
-    @required this.driver,
-    @required this.route,
-    @required this.date,
-    @required this.isRented,
+    required this.id,
+    required this.number,
+    required this.driver,
+    required this.route,
+    required this.date,
+    required this.isRented,
   });
 }

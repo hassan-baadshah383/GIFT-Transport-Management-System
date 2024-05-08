@@ -44,9 +44,9 @@ class DriverData with ChangeNotifier {
           'password': password,
           'returnSecureToken': true,
         }));
-    String userId;
+    String userId = '';
     await Auth().loginUser(email, password, false, false, true).then((value) {
-      userId = value;
+      userId = value!;
     });
     return userId;
   }
@@ -102,11 +102,9 @@ class DriverData with ChangeNotifier {
     final url =
         'https://gtms-fd7f3-default-rtdb.firebaseio.com/drivers.json$isDriver';
     final responce = await https.get(Uri.parse(url));
-    final extractedData = json.decode(responce.body) as Map<String, dynamic>;
-    if (extractedData == null) {
-      return null;
-    }
-    List<Driver> drivers = [];
+    final extractedData = json.decode(responce.body);
+    if(extractedData != null && extractedData is Map<String, dynamic>){
+      List<Driver> drivers = [];
     extractedData.forEach((key, data) {
       drivers.add(Driver(
           id: key,
@@ -120,7 +118,8 @@ class DriverData with ChangeNotifier {
           isEnable: data['isEnable']));
     });
     _driversData = drivers;
-    notifyListeners();
+    notifyListeners(); 
+    }
   }
 
   Future<void> fetchBusDetails(String name) async {
@@ -128,9 +127,6 @@ class DriverData with ChangeNotifier {
         'https://gtms-fd7f3-default-rtdb.firebaseio.com/buses.json?orderBy="driver"&equalTo="$name"';
     final responce = await https.get(Uri.parse(url));
     final extractedData = json.decode(responce.body) as Map<String, dynamic>;
-    if (extractedData == null) {
-      return null;
-    }
     List<Bus> bus = [];
     extractedData.forEach((key, data) {
       bus.add(Bus(
@@ -182,14 +178,14 @@ class DriverData with ChangeNotifier {
   }
 
   void htvDrivers() {
-    List driver = _driversData
+    List<Driver> driver = _driversData
         .where((driver) => driver.licenseCategory == 'HTV')
         .toList();
     _htvDriverDetails = driver;
   }
 
   void ltvDrivers() {
-    List driver = _driversData
+    List<Driver> driver = _driversData
         .where((driver) => driver.licenseCategory == 'LTV')
         .toList();
     _ltvDriverDetails = driver;

@@ -12,14 +12,14 @@ class Student with ChangeNotifier {
   bool isFeePaid;
 
   Student({
-    @required this.id,
-    @required this.rollNo,
-    @required this.name,
-    @required this.email,
-    @required this.password,
-    @required this.phone,
-    @required this.cnic,
-    @required this.location,
-    @required this.isFeePaid,
+    required this.id,
+    required this.rollNo,
+    required this.name,
+    required this.email,
+    this.password = '',
+    required this.phone,
+    required this.cnic,
+    required this.location,
+    this.isFeePaid = false,
   });
 }

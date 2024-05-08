@@ -23,9 +23,10 @@ class _AddCarScreenState extends State<AddCarScreen> {
   bool _isLoading = false;
   bool _isLoadingRoutes = false;
   bool _isLoadingDrivers = false;
+  bool _dependenciesFetched = false;
   CarType btype = CarType.own;
   final _form = GlobalKey<FormState>();
-  Map<String, Object> newCarData = {
+  Map<String, dynamic> newCarData = {
     'id': '',
     'number': '',
     'driver': '',
@@ -36,19 +37,21 @@ class _AddCarScreenState extends State<AddCarScreen> {
 
   @override
   void didChangeDependencies() {
-    fetchRoutes();
-    fetchDrivers();
+    if (!_dependenciesFetched) {
+      fetchRoutes();
+      fetchDrivers();
+      _dependenciesFetched = true;
+    }
     if (edit) {
-      final product =
-          ModalRoute.of(context).settings.arguments as Map<String, Object>;
-      if (product != null) {
+      final product = ModalRoute.of(context)?.settings.arguments;
+      if (product != null && product is Map<String, Object>) {
         inEditMode = true;
         newCarData = {
           'id': product['id'],
           'number': product['number'],
           'driver': product['driver'],
           'route': product['route'],
-          //'isRented': product['isRented'],
+          // 'isRented': product['isRented'],
         };
       }
     }
@@ -99,8 +102,8 @@ class _AddCarScreenState extends State<AddCarScreen> {
   }
 
   Future<void> submit() async {
-    final validate = _form.currentState.validate();
-    _form.currentState.save();
+    final validate = _form.currentState!.validate();
+    _form.currentState!.save();
     if (validate) {
       final carData = await Provider.of<CarProvider>(context, listen: false);
       if (inEditMode) {
@@ -173,7 +176,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
                             newCarData['number'] = newValue;
                           },
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return 'Please enter car number';
                             }
                             return null;
@@ -201,7 +204,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
                             newCarData['route'] = newValue;
                           },
                           onChanged: (value) {
-                            setState(() {});
+                            // setState(() {});
                           },
                           validator: (value) {
                             if (value == null) {
@@ -232,7 +235,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
                             newCarData['driver'] = newValue;
                           },
                           onChanged: (value) {
-                            setState(() {});
+                            // setState(() {});
                           },
                           validator: (value) {
                             if (value == null) {
@@ -248,9 +251,9 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                 subtitle: const Text('Type'),
                                 value: CarType.own,
                                 groupValue: btype,
-                                onChanged: ((CarType value) {
+                                onChanged: ((CarType? value) {
                                   setState(() {
-                                    btype = value;
+                                    btype = value!;
                                   });
                                 })),
                             RadioListTile(
@@ -258,9 +261,9 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                 subtitle: const Text('Type'),
                                 value: CarType.rented,
                                 groupValue: btype,
-                                onChanged: ((CarType value) {
+                                onChanged: ((CarType? value) {
                                   setState(() {
-                                    btype = value;
+                                    btype = value!;
                                   });
                                 }))
                           ],
@@ -279,11 +282,15 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                   onPressed: submit,
                                   style: ElevatedButton.styleFrom(
                                       elevation: 5,
-                                      shadowColor: Colors.blue,
+                                      shadowColor: Colors.purple,
+                                      backgroundColor: Colors.purple,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(50),
                                       )),
-                                  child: const Text('Submit')),
+                                  child: const Text(
+                                    'Submit',
+                                    style: TextStyle(color: Colors.white),
+                                  )),
                         ),
                       ],
                     ),

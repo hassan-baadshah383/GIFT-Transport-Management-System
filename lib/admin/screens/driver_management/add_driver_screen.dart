@@ -14,7 +14,7 @@ class _AddCarScreenState extends State<AddDriverScreen> {
   bool inEditMode = false;
   bool _isLoading = false;
   final _form = GlobalKey<FormState>();
-  Map<String, Object> newDriverData = {
+  Map<String, dynamic> newDriverData = {
     'id': '',
     'name': '',
     'email': '',
@@ -33,29 +33,30 @@ class _AddCarScreenState extends State<AddDriverScreen> {
   void didChangeDependencies() {
     if (isEdit) {
       final product =
-          ModalRoute.of(context).settings.arguments as Map<String, Object>;
-      if (product != null) {
+          ModalRoute.of(context)?.settings.arguments;
+          print('$product Hello');
+      if(product != null && product is Map<String, Object>){
         inEditMode = true;
-        newDriverData = {
-          'id': product['id'],
-          'name': product['name'],
-          'email': product['email'],
-          'password': product['password'],
-          'liscense': product['liscenseCategory'],
-          'phone': product['phone'],
-          'cnic': product['cnic'],
-          'isEnable': product['isEnable'].toString()
-        };
+      newDriverData = {
+        'id': product['id'],
+        'name': product['name'],
+        'email': product['email'],
+        'password': product['password'],
+        'liscense': product['liscenseCategory'],
+        'phone': product['phone'],
+        'cnic': product['cnic'],
+        'isEnable': product['isEnable'].toString()
+      };
       }
-    }
+        }
     isEdit = false;
     super.didChangeDependencies();
   }
 
   Future<void> submit() async {
-    final validate = _form.currentState.validate();
-    _form.currentState.save();
-    if (validate) {
+    final validate = _form.currentState?.validate();
+    _form.currentState?.save();
+    if (validate != null && validate) {
       final driverData = Provider.of<DriverData>(context, listen: false);
       if (inEditMode) {
         setState(() {
@@ -67,7 +68,7 @@ class _AddCarScreenState extends State<AddDriverScreen> {
           newDriverData['email'],
           newDriverData['password'],
           newDriverData['liscense'],
-          int.tryParse(newDriverData['phone']),
+          int.parse(newDriverData['phone']),
           newDriverData['cnic'],
           newDriverData['isEnable'] == 'true' ? true : false,
         );
@@ -79,7 +80,7 @@ class _AddCarScreenState extends State<AddDriverScreen> {
         setState(() {
           _isLoading = true;
         });
-        String userId;
+        late String userId;
         await driverData.SignUpDriver(
                 newDriverData['email'], newDriverData['password'])
             .then((value) => userId = value);
@@ -133,7 +134,7 @@ class _AddCarScreenState extends State<AddDriverScreen> {
                       newDriverData['name'] = newValue;
                     },
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Please enter a name';
                       }
                       return null;
@@ -154,7 +155,7 @@ class _AddCarScreenState extends State<AddDriverScreen> {
                       newDriverData['email'] = newValue;
                     },
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Please enter a email';
                       } else if (!value.contains('@gift.edu.pk')) {
                         return 'Please use a valid domain';
@@ -176,7 +177,7 @@ class _AddCarScreenState extends State<AddDriverScreen> {
                       newDriverData['password'] = newValue;
                     },
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Please enter a password';
                       }
                       return null;
@@ -193,7 +194,7 @@ class _AddCarScreenState extends State<AddDriverScreen> {
                       labelText: 'Confirm Password',
                     ),
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Please password again';
                       }
                       return null;
@@ -215,9 +216,9 @@ class _AddCarScreenState extends State<AddDriverScreen> {
                     onSaved: (newValue) {
                       newDriverData['liscense'] = newValue;
                     },
-                    onChanged: (String value) {
+                    onChanged: (String? value) {
                       setState(() {
-                        initialLiscense = value;
+                        initialLiscense = value!;
                       });
                     },
                     validator: (value) {
@@ -244,7 +245,7 @@ class _AddCarScreenState extends State<AddDriverScreen> {
                       newDriverData['phone'] = newValue;
                     },
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Please enter a phone';
                       }
                       return null;
@@ -265,7 +266,7 @@ class _AddCarScreenState extends State<AddDriverScreen> {
                       newDriverData['cnic'] = newValue;
                     },
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Please enter a CNIC';
                       }
                       return null;
@@ -287,11 +288,12 @@ class _AddCarScreenState extends State<AddDriverScreen> {
                             }),
                             style: ElevatedButton.styleFrom(
                                 elevation: 5,
-                                shadowColor: Colors.blue,
+                                shadowColor: Colors.purple,
+                                backgroundColor: Colors.purple,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(50),
                                 )),
-                            child: const Text('Submit')),
+                            child: const Text('Submit', style: TextStyle(color: Colors.white),)),
                   ),
                 ],
               ),

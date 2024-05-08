@@ -41,7 +41,7 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
     await Future.delayed(Duration(seconds: 2));
     final userId = await Provider.of<Auth>(context, listen: false).userId;
     final driversData = await Provider.of<DriverData>(context, listen: false);
-    await driversData.fetchDriverData(userId, true);
+    await driversData.fetchDriverData(userId!, true);
     await driversData.fetchBusDetails(driversData.driversData.first.name);
     driverBus =
         driversData.driverBus.isEmpty ? '' : driversData.driverBus.first.number;
@@ -90,9 +90,9 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
 
   void _sendLocation() {
     final authId = Provider.of<Auth>(context, listen: false).userId;
-    final databaseReference = FirebaseDatabase.instance.reference();
+    final databaseReference = FirebaseDatabase.instance.ref();
     print({driverBus, 'driver Bus'});
-    databaseReference.child('locations').child(authId).set({
+    databaseReference.child('locations').child(authId!).set({
       'latitude': latitude,
       'longitude': longitude,
       'Bus number': driverBus

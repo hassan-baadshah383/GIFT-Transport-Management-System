@@ -23,9 +23,10 @@ class _AddBusScreenState extends State<AddBusScreen> {
   bool isLoading = false;
   bool _isLoadingRoutes = false;
   bool _isLoadingDrivers = false;
+  bool _dependenciesFetched = false;
   BusType btype = BusType.own;
   final _form = GlobalKey<FormState>();
-  Map<String, Object> newBusData = {
+  Map<String, dynamic> newBusData = {
     'id': '',
     'number': '',
     'driver': '',
@@ -35,12 +36,15 @@ class _AddBusScreenState extends State<AddBusScreen> {
 
   @override
   void didChangeDependencies() {
-    fetchRoutes();
-    fetchDrivers();
+    if (!_dependenciesFetched) {
+      fetchRoutes();
+      fetchDrivers();
+      _dependenciesFetched = true;
+    }
+
     if (isEdit) {
-      final product =
-          ModalRoute.of(context).settings.arguments as Map<String, Object>;
-      if (product != null) {
+      final product = ModalRoute.of(context)?.settings.arguments;
+      if (product != null && product is Map<String, Object>) {
         inEditMode = true;
         newBusData = {
           'id': product['id'],
@@ -96,8 +100,8 @@ class _AddBusScreenState extends State<AddBusScreen> {
   }
 
   Future<void> submit() async {
-    final validate = _form.currentState.validate();
-    _form.currentState.save();
+    final validate = _form.currentState!.validate();
+    _form.currentState!.save();
 
     if (validate) {
       final busData = Provider.of<BusProvider>(context, listen: false);
@@ -170,7 +174,7 @@ class _AddBusScreenState extends State<AddBusScreen> {
                             newBusData['number'] = newValue;
                           },
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return 'Please enter bus number';
                             }
                             return null;
@@ -203,8 +207,10 @@ class _AddBusScreenState extends State<AddBusScreen> {
                           onSaved: (newValue) {
                             newBusData['route'] = newValue;
                           },
-                          onChanged: (String value) {
-                            setState(() {});
+                          onChanged: (String? value) {
+                            // setState(() {
+                            // newBusData['route'] = value;
+                            // });
                           },
                         ),
                         DropdownButtonFormField<String>(
@@ -234,8 +240,10 @@ class _AddBusScreenState extends State<AddBusScreen> {
                           onSaved: (newValue) {
                             newBusData['driver'] = newValue;
                           },
-                          onChanged: (String value) {
-                            setState(() {});
+                          onChanged: (String? value) {
+                            // setState(() {
+                            //   // newBusData['driver'] = value;
+                            // });
                           },
                         ),
                         Column(
@@ -245,9 +253,9 @@ class _AddBusScreenState extends State<AddBusScreen> {
                                 subtitle: const Text('Type'),
                                 value: BusType.own,
                                 groupValue: btype,
-                                onChanged: ((BusType value) {
+                                onChanged: ((BusType? value) {
                                   setState(() {
-                                    btype = value;
+                                    btype = value!;
                                   });
                                 })),
                             RadioListTile(
@@ -255,9 +263,9 @@ class _AddBusScreenState extends State<AddBusScreen> {
                                 subtitle: const Text('Type'),
                                 value: BusType.rented,
                                 groupValue: btype,
-                                onChanged: ((BusType value) {
+                                onChanged: ((BusType? value) {
                                   setState(() {
-                                    btype = value;
+                                    btype = value!;
                                   });
                                 }))
                           ],
@@ -276,11 +284,15 @@ class _AddBusScreenState extends State<AddBusScreen> {
                                   }),
                                   style: ElevatedButton.styleFrom(
                                       elevation: 5,
-                                      shadowColor: Colors.blue,
+                                      backgroundColor: Colors.purple,
+                                      shadowColor: Colors.purple,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(50),
                                       )),
-                                  child: const Text('Submit')),
+                                  child: const Text(
+                                    'Submit',
+                                    style: TextStyle(color: Colors.white),
+                                  )),
                         ),
                       ],
                     ),

@@ -23,8 +23,9 @@ class FeeProvider with ChangeNotifier {
   Future<void> fetchData() async {
     const url = 'https://gtms-fd7f3-default-rtdb.firebaseio.com/students.json';
     final response = await https.get(Uri.parse(url));
-    final extractedData = json.decode(response.body) as Map<String, dynamic>;
-    List<StudentFee> fee = [];
+    final extractedData = json.decode(response.body);
+    if (extractedData != null && extractedData is Map<String, dynamic>){
+      List<StudentFee> fee = [];
     extractedData.forEach((id, data) {
       fee.add(StudentFee(
           rollNo: data['rollNo'],
@@ -36,12 +37,13 @@ class FeeProvider with ChangeNotifier {
     _studentFees
         .forEach((element) => print({element.isFeePaid, 'Is Fee Paid Method'}));
     notifyListeners();
+    }
   }
 
   Future<void> updateData(String id, bool isFeePaid) async {
     final url =
         'https://gtms-fd7f3-default-rtdb.firebaseio.com/students/$id.json';
-    final response = await https.patch(Uri.parse(url),
+    await https.patch(Uri.parse(url),
         body: json.encode({
           'isFeePaid': isFeePaid,
         }));

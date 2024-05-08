@@ -8,11 +8,11 @@ class Attendance {
   String status;
 
   Attendance({
-    this.no,
-    this.employeeId,
-    this.punchDatetime,
-    this.deviceNo,
-    this.status,
+    required this.no,
+    required this.employeeId,
+    required this.punchDatetime,
+    required this.deviceNo,
+    required this.status,
   });
 
   factory Attendance.fromJson(Map<String, dynamic> json) {

@@ -5,7 +5,7 @@ class RouteClass with ChangeNotifier {
   String name;
 
   RouteClass({
-    @required this.id,
-    @required this.name,
+    required this.id,
+    required this.name,
   });
 }

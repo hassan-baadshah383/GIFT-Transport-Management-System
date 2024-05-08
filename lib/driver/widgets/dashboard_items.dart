@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class DashboardItems extends StatelessWidget {
-  String title;
-  Widget icon;
-  String route;
-  Color color;
+  final String title;
+  final Widget icon;
+  final String route;
+  final Color color;
 
   DashboardItems(this.title, this.icon, this.route, this.color);
 

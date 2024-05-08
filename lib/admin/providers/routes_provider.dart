@@ -31,16 +31,15 @@ class RoutesProvider with ChangeNotifier {
   Future<void> fetchRoutesData() async {
     const url = 'https://gtms-fd7f3-default-rtdb.firebaseio.com/routes.json';
     final responce = await https.get(Uri.parse(url));
-    final extractedData = json.decode(responce.body) as Map<String, dynamic>;
-    if (extractedData == null) {
-      return null;
-    }
-    List<RouteClass> r = [];
+    final extractedData = json.decode(responce.body);
+    if (extractedData != null && extractedData is Map<String, dynamic>) {
+      List<RouteClass> r = [];
     extractedData.forEach((i, data) {
       r.add(RouteClass(id: i, name: data['name']));
       _routesList = r;
       notifyListeners();
     });
+    }
   }
 
   Future<void> deleteRoute(String nam, String id) async {

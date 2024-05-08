@@ -5,7 +5,7 @@ import '/admin/screens/vehicle_management/bus_detail_screen.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class VehicleManagement extends StatelessWidget {
-  const VehicleManagement({Key key}) : super(key: key);
+  const VehicleManagement({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -64,7 +64,7 @@ class _FeeDetailScreenState extends State<FeeDetailScreen> {
                           }).toList(),
                           onChanged: ((value) {
                             setState(() {
-                              initialValue = value;
+                              initialValue = value.toString();
                             });
                             if (initialValue == 'All') {
                               studList;

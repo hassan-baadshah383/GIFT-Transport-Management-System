@@ -10,10 +10,10 @@ class EmployeAttendance with ChangeNotifier {
   String status;
 
   EmployeAttendance({
-    @required this.id,
-    @required this.employeeId,
-    @required this.punchDatetime,
-    @required this.status,
+    required this.id,
+    required this.employeeId,
+    required this.punchDatetime,
+    required this.status,
   });
 
   List<EmployeAttendance> _attendanceDetails = [];
@@ -34,9 +34,6 @@ class EmployeAttendance with ChangeNotifier {
     final responce = await http.get(Uri.parse(url));
     final extractedData = json.decode(responce.body) as Map<String, dynamic>;
     List<String> ids = [];
-    if (extractedData == null) {
-      return;
-    }
     extractedData.forEach((aId, attendanceDataMap) {
       ids.add(aId);
     });
@@ -49,26 +46,26 @@ class EmployeAttendance with ChangeNotifier {
     final url =
         'https://gtms-fd7f3-default-rtdb.firebaseio.com/attendance.json';
     final response = await http.get(Uri.parse(url));
-    final extractedData = json.decode(response.body) as Map<String, dynamic>;
-    if (extractedData == null) {
-      return;
+    final extractedData = json.decode(response.body);
+    if (extractedData != null && extractedData is Map<String, dynamic>) {
+      final List<EmployeAttendance> attendanceData = [];
+      print({extractedData, 'Extracted Data'});
+      extractedData.forEach((aId, attendanceDataMap) {
+        if (aId == eId) {
+          attendanceDataMap.forEach((date, statusMap) {
+            final status = statusMap['Status'] as String;
+            attendanceData.add(EmployeAttendance(
+              id: '2',
+              employeeId: aId,
+              punchDatetime: date,
+              status: status,
+            ));
+          });
+        }
+      });
+      _attendanceDetails = attendanceData;
+      notifyListeners();
     }
-    final List<EmployeAttendance> attendanceData = [];
-    print({extractedData, 'Extracted Data'});
-    extractedData.forEach((aId, attendanceDataMap) {
-      if (aId == eId) {
-        attendanceDataMap.forEach((date, statusMap) {
-          final status = statusMap['Status'] as String;
-          attendanceData.add(EmployeAttendance(
-            employeeId: aId,
-            punchDatetime: date,
-            status: status,
-          ));
-        });
-      }
-    });
-    _attendanceDetails = attendanceData;
-    notifyListeners();
   }
 
   void filterSearch(String enteredKeyword) {

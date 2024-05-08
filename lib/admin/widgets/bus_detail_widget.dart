@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gtms/admin/screens/vehicle_management/add_bus_screen.dart';
 import 'package:gtms/admin/screens/vehicle_management/bus_detail_description.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'package:gtms/admin/providers/bus_provider.dart';
@@ -15,12 +14,12 @@ class BusDetailWidget extends StatefulWidget {
   bool isRented;
 
   BusDetailWidget({
-    @required this.id,
-    @required this.number,
-    @required this.driver,
-    @required this.route,
-    @required this.date,
-    @required this.isRented,
+    required this.id,
+    required this.number,
+    required this.driver,
+    required this.route,
+    required this.date,
+    required this.isRented,
   });
 
   @override

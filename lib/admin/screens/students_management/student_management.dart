@@ -5,7 +5,7 @@ import 'package:gtms/admin/screens/students_management/student_attendance_detail
 import 'package:gtms/admin/screens/students_management/student_detail_screen.dart';
 
 class StudentManagement extends StatelessWidget {
-  const StudentManagement({Key key}) : super(key: key);
+  const StudentManagement({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

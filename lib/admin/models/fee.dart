@@ -7,8 +7,8 @@ class StudentFee with ChangeNotifier {
   bool isFeePaid;
 
   StudentFee(
-      {@required this.rollNo,
-      @required this.sId,
-      @required this.name,
-      @required this.isFeePaid});
+      {required this.rollNo,
+      required this.sId,
+      required this.name,
+      required this.isFeePaid});
 }

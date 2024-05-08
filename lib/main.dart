@@ -40,8 +40,6 @@ import 'admin/providers/car_provider.dart';
 import 'admin/screens/vehicle_management/add_bus_screen.dart';
 import 'package:flutter/services.dart';
 import 'firebase_options.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,8 +58,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider.value(value: EmployeAttendance()),
-          ChangeNotifierProvider.value(value: Student()),
+          ChangeNotifierProvider.value(value: EmployeAttendance(id: '', employeeId: '', punchDatetime: '', status: '')),
+          ChangeNotifierProvider.value(value: Student(id: '', cnic: '', email: '', location: '', name: '', phone: 0, rollNo: 0)),
           ChangeNotifierProvider.value(value: FeeProvider()),
           ChangeNotifierProvider.value(value: Auth()),
           ChangeNotifierProvider.value(value: StudentData()),
@@ -70,7 +68,7 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider.value(value: CarProvider()),
           ChangeNotifierProvider.value(value: BusProvider()),
-          ChangeNotifierProvider.value(value: Bus()),
+          ChangeNotifierProvider.value(value: Bus(id: '', number: '', driver: '', route: '', isRented: false, date: DateTime(2020))),
           ChangeNotifierProvider.value(value: DriverData()),
           ChangeNotifierProvider.value(value: RoutesProvider())
         ],
@@ -80,13 +78,19 @@ class MyApp extends StatelessWidget {
               title: 'GIFT Transport Management System',
               theme: ThemeData(
                 fontFamily: 'Times New Roman',
+                appBarTheme: AppBarTheme(titleTextStyle: TextStyle(color: Colors.white), // Title text color
+                iconTheme: IconThemeData(color: Colors.white),),
+                tabBarTheme: TabBarTheme(labelColor: Colors.white, unselectedLabelColor: Colors.blueAccent),
                 textTheme: const TextTheme(
-                    bodyMedium: TextStyle(fontFamily: 'OpenSans-Regular.ttf')),
+                    bodyMedium: TextStyle(fontFamily: 'OpenSans-Regular.ttf'),),
                 primaryColor: const Color.fromRGBO(0, 0, 128, 1),
                 colorScheme: ColorScheme.fromSwatch()
                     .copyWith(secondary: const Color.fromRGBO(230, 126, 0, 1)),
               ),
-              home: auth.isAdmin && auth.isAuth
+              home: 
+              // AdminDashboardScreen(),
+              // StudentDashboardScreen(),
+              auth.isAdmin && auth.isAuth
                   ? AdminDashboardScreen()
                   : auth.isStudent && auth.isAuth
                       ? StudentDashboardScreen()

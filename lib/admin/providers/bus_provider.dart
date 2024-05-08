@@ -59,18 +59,16 @@ class BusProvider with ChangeNotifier {
   Future<void> fetchBusData() async {
     const url = 'https://gtms-fd7f3-default-rtdb.firebaseio.com/buses.json';
     final responce = await https.get(Uri.parse(url));
-    final extractedData = json.decode(responce.body) as Map<String, dynamic>;
-    if (extractedData == null) {
-      return null;
-    }
-    List<Bus> buses = [];
+    final extractedData = json.decode(responce.body);
+    if (extractedData != null && extractedData is Map<String, dynamic>){
+      List<Bus> buses = [];
     extractedData.forEach((id, data) {
       buses.add(Bus(
           id: id,
           number: data['Bus number'],
           driver: data['driver'],
           route: data['route'],
-          date: DateTime.tryParse(data['date']),
+          date: DateTime.parse(data['date']),
           isRented: data['isRented'] == 'true'
               ? true
               : data['isRented'] == 'false'
@@ -79,14 +77,15 @@ class BusProvider with ChangeNotifier {
     });
     _busDetail = buses;
     notifyListeners();
+    }
   }
 
   Future<void> updateBus(
-      {String id,
-      String number,
-      String driver,
-      String route,
-      bool isRented}) async {
+      {required String id,
+      required String number,
+      required String driver,
+      required String route,
+      required bool isRented}) async {
     final busIndex = _busDetail.indexWhere((element) => element.id == id);
     final url = 'https://gtms-fd7f3-default-rtdb.firebaseio.com/buses/$id.json';
     try {
@@ -112,13 +111,13 @@ class BusProvider with ChangeNotifier {
   }
 
   void ownBuses() {
-    List buses =
+    List<Bus> buses =
         _busDetail.where((element) => element.isRented == false).toList();
     _ownBusDetails = buses;
   }
 
   void rentedBuses() {
-    List buses = _busDetail.where((car) => car.isRented == true).toList();
+    List<Bus> buses = _busDetail.where((car) => car.isRented == true).toList();
     _rentedBusDetails = buses;
   }
 

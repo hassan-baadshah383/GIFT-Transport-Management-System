@@ -114,10 +114,10 @@ class _AdminBusDetailScreenState extends State<AdminBusDetailScreen> {
                                 ),
                               );
                             }).toList(),
-                            onChanged: ((String value) {
+                            onChanged: ((String? value) {
                               //ownCarDetails;
                               setState(() {
-                                initialValue = value;
+                                initialValue = value!;
                               });
                               if (initialValue == 'All') {
                                 busDetails;

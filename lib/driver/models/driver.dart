@@ -12,14 +12,14 @@ class Driver with ChangeNotifier {
   bool isEnable;
 
   Driver({
-    @required this.id,
-    @required this.creatorId,
-    @required this.name,
-    @required this.email,
-    @required this.password,
-    @required this.cnic,
-    @required this.phone,
-    @required this.licenseCategory,
-    @required this.isEnable,
+    required this.id,
+    this.creatorId = '',
+    required this.name,
+    required this.email,
+    required this.password,
+    required this.cnic,
+    required this.phone,
+    required this.licenseCategory,
+    required this.isEnable,
   });
 }

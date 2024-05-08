@@ -8,12 +8,12 @@ class DriverDetailDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     final routesArgs =
-        ModalRoute.of(context).settings.arguments as Map<String, Object>;
-    final name = routesArgs['name'];
-    final email = routesArgs['email'];
-    final cnic = routesArgs['cnic'];
+        ModalRoute.of(context)?.settings.arguments as Map<String, Object>;
+    final String name = routesArgs['name'].toString();
+    final String email = routesArgs['email'].toString();
+    final String cnic = routesArgs['cnic'].toString();
     final phone = routesArgs['phone'];
-    final license = routesArgs['liscenseCategory'];
+    final String license = routesArgs['liscenseCategory'].toString();
     return Scaffold(
         appBar: AppBar(
           title: const Text('Driver Details'),

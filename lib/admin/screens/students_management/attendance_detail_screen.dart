@@ -24,12 +24,12 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
     super.didChangeDependencies();
   }
 
-  void fetchData() async {
+  Future<void> fetchData() async {
     setState(() {
       _isLoading = true;
     });
     final routeDetails =
-        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final routeId = routeDetails['id'];
     await Provider.of<EmployeAttendance>(context, listen: false)
         .fetchAttendanceData(routeId);
@@ -40,7 +40,7 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
     }
   }
 
-  void _fetchAttendanceData() async {
+  Future<void> _fetchAttendanceData() async {
     setState(() {
       _isLoading = true;
     });
@@ -123,7 +123,7 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
                               physics: const BouncingScrollPhysics(),
                               child: DataTable(
                                 headingRowColor: MaterialStateColor.resolveWith(
-                                    (states) => Colors.grey[200]),
+                                    (states) => Colors.grey[200] ?? Colors.grey),
                                 dataRowColor: MaterialStateColor.resolveWith(
                                     (states) => Colors.white),
                                 columns: [

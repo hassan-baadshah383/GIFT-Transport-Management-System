@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Car {
   String id;
   String number;
@@ -9,11 +7,11 @@ class Car {
   bool isRented;
 
   Car({
-    @required this.id,
-    @required this.number,
-    @required this.driver,
-    @required this.route,
-    @required this.date,
-    @required this.isRented,
+    required this.id,
+    required this.number,
+    required this.driver,
+    required this.route,
+    required this.date,
+    required this.isRented,
   });
 }

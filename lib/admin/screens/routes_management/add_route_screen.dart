@@ -14,7 +14,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
   bool inEditMode = false;
   bool _isLoading = false;
   final _form = GlobalKey<FormState>();
-  Map<String, Object> newRouteData = {
+  Map<String, dynamic> newRouteData = {
     'id': '',
     'name': '',
   };
@@ -23,8 +23,8 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
   void didChangeDependencies() {
     if (isEdit) {
       final product =
-          ModalRoute.of(context).settings.arguments as Map<String, Object>;
-      if (product != null) {
+          ModalRoute.of(context)?.settings.arguments;
+      if (product != null && product is Map<String, Object>) {
         inEditMode = true;
         newRouteData = {
           'id': product['id'],
@@ -37,8 +37,8 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
   }
 
   Future<void> submit() async {
-    final validate = _form.currentState.validate();
-    _form.currentState.save();
+    final validate = _form.currentState!.validate();
+    _form.currentState!.save();
     if (validate) {
       final routesData = Provider.of<RoutesProvider>(context, listen: false);
       if (inEditMode) {
@@ -97,7 +97,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
                       newRouteData['name'] = newValue;
                     },
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Please enter a route';
                       }
                       return null;
@@ -118,12 +118,13 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
                               submit();
                             }),
                             style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.purple,
                                 elevation: 5,
-                                shadowColor: Colors.blue,
+                                shadowColor: Colors.purple,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(50),
                                 )),
-                            child: const Text('Submit')),
+                            child: const Text('Submit', style: TextStyle(color: Colors.white),)),
                   ),
                 ],
               ),

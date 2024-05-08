@@ -115,10 +115,10 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                                 ),
                               );
                             }).toList(),
-                            onChanged: ((String value) {
+                            onChanged: ((String? value) {
                               //ownCarDetails;
                               setState(() {
-                                initialValue = value;
+                                initialValue = value!;
                               });
                               if (initialValue == 'All') {
                                 carDetails;

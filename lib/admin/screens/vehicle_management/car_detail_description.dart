@@ -9,10 +9,10 @@ class CarDetailDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     final details =
-        ModalRoute.of(context).settings.arguments as Map<String, Object>;
-    final carNumber = details['number'];
-    final carDriver = details['driver'];
-    final carRoute = details['route'];
+        ModalRoute.of(context)!.settings.arguments as Map<String, Object>;
+    final String carNumber = details['number'].toString();
+    final String carDriver = details['driver'].toString();
+    final String carRoute = details['route'].toString();
     final carDate = details['date'];
     final carIsRented = details['isRented'];
 
@@ -170,7 +170,7 @@ class CarDetailDescription extends StatelessWidget {
                         child: FittedBox(
                             child: Text(details.isEmpty
                                 ? '...'
-                                : DateFormat.yMMMMd().format(carDate))),
+                                : DateFormat.yMMMMd().format(carDate as DateTime))),
                       )
                     ],
                   ),

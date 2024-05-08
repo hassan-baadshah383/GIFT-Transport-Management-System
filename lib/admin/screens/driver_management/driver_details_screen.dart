@@ -110,10 +110,10 @@ class _DriverDetailsScreenState extends State<DriverDetailsScreen> {
                                 ),
                               );
                             }).toList(),
-                            onChanged: ((String value) {
+                            onChanged: ((String? value) {
                               //ownCarDetails;
                               setState(() {
-                                initialValue = value;
+                                initialValue = value!;
                               });
                               if (initialValue == 'All') {
                                 driverDetails;

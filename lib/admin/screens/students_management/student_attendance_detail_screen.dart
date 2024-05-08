@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:gtms/admin/models/emp_attendance.dart';
 import 'package:gtms/admin/widgets/student_attendance_detail_widget.dart';
-import 'package:gtms/student/models/student.dart';
 import 'package:provider/provider.dart';
 import 'package:gtms/admin/models/attendance.dart';
 import 'package:gtms/admin/providers/api_service.dart';
-import 'package:gtms/student/providers/students.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as https;
 import 'dart:convert';
@@ -42,7 +40,7 @@ class _StudentsAttendanceDetailsState extends State<StudentsAttendanceDetails> {
     setState(() {
       _isLoading = true;
     });
-    await students.forEach((std) {
+    students.forEach((std) {
       setInitialStatus(std, DateFormat('yyyy-MM-dd').format(DateTime.now()));
     });
     await _fetchAttendanceData();
@@ -67,7 +65,7 @@ class _StudentsAttendanceDetailsState extends State<StudentsAttendanceDetails> {
         }));
   }
 
-  void _fetchAttendanceData() async {
+  Future<void> _fetchAttendanceData() async {
     DateTime now = DateTime.now();
     try {
       List<Attendance> attendance = await APIService.getAttendanceData(
@@ -98,6 +96,9 @@ class _StudentsAttendanceDetailsState extends State<StudentsAttendanceDetails> {
   }
 
   Future<void> fetchData() async {
+    if(!mounted){
+      return;
+    }
     await Provider.of<EmployeAttendance>(context, listen: false)
         .fetchAttendanceId();
   }

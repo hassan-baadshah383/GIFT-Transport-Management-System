@@ -18,7 +18,7 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
+    // final deviceSize = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -27,16 +27,15 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
         ),
         drawer: AppDrawer(),
         body: Container(
-          //width: deviceSize.width * 0.4,
           alignment: Alignment.topCenter,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),
             child: DataTable(
-              horizontalMargin: 100,
-              dataRowHeight: 60,
+              // horizontalMargin: deviceSize.width,
+              // dataRowMinHeight: 60,
               headingRowColor:
-                  MaterialStateColor.resolveWith((states) => Colors.grey[200]),
+                  MaterialStateColor.resolveWith((states) => Colors.grey[200] ?? Colors.grey),
               dataRowColor:
                   MaterialStateColor.resolveWith((states) => Colors.white),
               columnSpacing: 30.0,

@@ -60,18 +60,16 @@ class CarProvider with ChangeNotifier {
   Future<void> fetchCarData() async {
     const url = 'https://gtms-fd7f3-default-rtdb.firebaseio.com/cars.json';
     final responce = await https.get(Uri.parse(url));
-    final extractedData = json.decode(responce.body) as Map<String, dynamic>;
-    if (extractedData == null) {
-      return null;
-    }
-    List<Car> cars = [];
+    final extractedData = json.decode(responce.body);
+    if (extractedData != null && extractedData is Map<String, dynamic>){
+      List<Car> cars = [];
     extractedData.forEach((id, data) {
       cars.add(Car(
           id: id,
           number: data['Car number'],
           driver: data['driver'],
           route: data['route'],
-          date: DateTime.tryParse(data['date']),
+          date: DateTime.parse(data['date']),
           isRented: data['isRented'] == 'true'
               ? true
               : data['isRented'] == 'false'
@@ -80,14 +78,15 @@ class CarProvider with ChangeNotifier {
     });
     _carDetail = cars;
     notifyListeners();
+    }
   }
 
   Future<void> updateCar(
-      {String id,
-      String number,
-      String driver,
-      String route,
-      bool isRented}) async {
+      {required String id,
+      required String number,
+      required String driver,
+      required String route,
+      required bool isRented}) async {
     final carIndex = _carDetail.indexWhere((element) => element.id == id);
     final url = 'https://gtms-fd7f3-default-rtdb.firebaseio.com/cars/$id.json';
     await https.patch(Uri.parse(url),
@@ -109,13 +108,13 @@ class CarProvider with ChangeNotifier {
   }
 
   void ownCars() {
-    List cars =
+    List<Car> cars =
         _carDetail.where((element) => element.isRented == false).toList();
     _ownCarDetails = cars;
   }
 
   void rentedCars() {
-    List cars = _carDetail.where((car) => car.isRented == true).toList();
+    List<Car> cars = _carDetail.where((car) => car.isRented == true).toList();
     _rentedCarDetails = cars;
   }
 

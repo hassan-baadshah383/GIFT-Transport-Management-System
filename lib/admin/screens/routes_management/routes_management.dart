@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import './routes_details_screen.dart';
 
 class RoutesManagement extends StatelessWidget {
-  const RoutesManagement({Key key}) : super(key: key);
+  const RoutesManagement({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

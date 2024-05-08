@@ -66,13 +66,13 @@ class StudentData with ChangeNotifier {
   }
 
   Future<void> updateStudent(
-      {String id,
-      int rollNo,
-      String name,
-      String email,
-      String cnic,
-      int phone,
-      String location}) async {
+      {required String id,
+      required int rollNo,
+      required String name,
+      required String email,
+      required String cnic,
+      required int phone,
+      required String location}) async {
     final studIndex = _studentsData.indexWhere((stud) {
       return stud.id == id;
     });
@@ -160,11 +160,9 @@ class StudentData with ChangeNotifier {
     //?orderBy="route"&equalTo="$name"
     const url = 'https://gtms-fd7f3-default-rtdb.firebaseio.com/buses.json';
     final responce = await https.get(Uri.parse(url));
-    final extractedData = json.decode(responce.body) as Map<String, dynamic>;
-    if (extractedData == null) {
-      return null;
-    }
-    List<Bus> bus = [];
+    final extractedData = json.decode(responce.body);
+    if(extractedData != null && extractedData is Map<String, dynamic>){
+      List<Bus> bus = [];
     extractedData.forEach((key, data) {
       if (studentLocation
           .toLowerCase()
@@ -180,6 +178,7 @@ class StudentData with ChangeNotifier {
     });
     _studentBus = bus;
     notifyListeners();
+    }
   }
 
   String get studentName {

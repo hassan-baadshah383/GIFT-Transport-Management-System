@@ -14,13 +14,13 @@ class StudentDetailWidget extends StatefulWidget {
   String location;
 
   StudentDetailWidget({
-    @required this.id,
-    @required this.rollNo,
-    @required this.name,
-    @required this.email,
-    @required this.phone,
-    @required this.cnic,
-    @required this.location,
+    required this.id,
+    required this.rollNo,
+    required this.name,
+    required this.email,
+    required this.phone,
+    required this.cnic,
+    required this.location,
   });
 
   @override

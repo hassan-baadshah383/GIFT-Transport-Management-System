@@ -9,8 +9,8 @@ class AdminMapScreen extends StatefulWidget {
 }
 
 class _AdminMapScreenState extends State<AdminMapScreen> {
-  GoogleMapController _mapController;
-  Map<MarkerId, Marker> _markers;
+  GoogleMapController? _mapController;
+  Map<MarkerId, Marker>? _markers;
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _AdminMapScreenState extends State<AdminMapScreen> {
   }
 
   void _addMarker(double lat, double lng, String busNumber) {
-    final MarkerId markerId = MarkerId('marker_id_${_markers.length}');
+    final MarkerId markerId = MarkerId('marker_id_${_markers?.length}');
     final Marker marker = Marker(
       markerId: markerId,
       position: LatLng(lat, lng),
@@ -46,7 +46,7 @@ class _AdminMapScreenState extends State<AdminMapScreen> {
     );
     if (mounted) {
       setState(() {
-        _markers[markerId] = marker;
+        _markers![markerId] = marker;
       });
     }
   }
@@ -62,7 +62,7 @@ class _AdminMapScreenState extends State<AdminMapScreen> {
           target: LatLng(32.1617, 74.1883),
           zoom: 10,
         ),
-        markers: Set<Marker>.of(_markers.values),
+        markers: Set<Marker>.of(_markers!.values),
       ),
     );
   }

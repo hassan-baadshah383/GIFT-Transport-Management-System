@@ -83,7 +83,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
             ),
             Flexible(
               flex: deviceSize.width > 600 ? 2 : 1,
-              child: const AuthCard(),
+              child: AuthCard(),
             )
           ]),
         )
@@ -94,7 +94,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
 
 class AuthCard extends StatefulWidget {
   const AuthCard({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -105,7 +105,7 @@ class _AuthCardState extends State<AuthCard>
     with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey();
   AuthMode _authMode = AuthMode.Login;
-  final Map<String, Object> _authData = {
+  final Map<String, dynamic> _authData = {
     'name': '',
     'rollNo': '',
     'email': '',
@@ -121,9 +121,9 @@ class _AuthCardState extends State<AuthCard>
   bool isDriver = false;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  AnimationController _animController;
-  Animation<double> _opacityAnimation;
-  Animation<Offset> _offsetAnimation;
+  late AnimationController _animController;
+  late Animation<double> _opacityAnimation;
+  late Animation<Offset> _offsetAnimation;
 
   @override
   void initState() {
@@ -181,17 +181,17 @@ class _AuthCardState extends State<AuthCard>
   Future<void> checkDriver() async {
     final d = await Provider.of<Auth>(context, listen: false)
         .checkDriver(_emailController.text);
-    if (d == true && isChecked) {
+    if (d != null && d == true && isChecked) {
       isDriver = true;
     }
   }
 
   Future<void> _submit() async {
-    if (!_formKey.currentState.validate()) {
+    if (!_formKey.currentState!.validate()) {
       // Invalid!
       return;
     }
-    _formKey.currentState.save();
+    _formKey.currentState!.save();
     //_formKey.currentState.reset();
     setState(() {
       _isLoading = true;
@@ -211,8 +211,12 @@ class _AuthCardState extends State<AuthCard>
         );
       } else {
         checkAdmin();
+        print("$isAdmin check the admin");
+        print("Check the line hassan");
         await checkStudent();
+        print("Check the line hassan2");
         await checkDriver();
+        print("Check the line hassan3");
         if (!isAdmin && !isStudent && !isDriver) {
           _alertDialogueBox('Please enter valid credentials');
           setState(() {
@@ -220,6 +224,8 @@ class _AuthCardState extends State<AuthCard>
           });
           return;
         }
+        // print(_authData['email'] + _authData['password'] + "Email and pass");
+        // print("$isAdmin $isStudent $isDriver Verify");        
         await Provider.of<Auth>(context, listen: false).loginUser(
             _authData['email'],
             _authData['password'],
@@ -257,13 +263,13 @@ class _AuthCardState extends State<AuthCard>
     if (_authMode == AuthMode.Login) {
       setState(() {
         _authMode = AuthMode.Signup;
-        _formKey.currentState.reset();
+        _formKey.currentState!.reset();
       });
       _animController.forward();
     } else {
       setState(() {
         _authMode = AuthMode.Login;
-        _formKey.currentState.reset();
+        _formKey.currentState!.reset();
       });
       _animController.reverse();
     }
@@ -299,14 +305,14 @@ class _AuthCardState extends State<AuthCard>
                     textCapitalization: TextCapitalization.words,
                     validator: _authMode == AuthMode.Signup
                         ? (value) {
-                            if (value.length <= 5) {
+                            if (value!.length <= 5) {
                               return 'Username is too short!';
                             }
                             return null;
                           }
                         : null,
                     onSaved: ((value) {
-                      _authData['name'] = value;
+                      _authData['name'] = value!;
                     }),
                   ),
                 if (_authMode == AuthMode.Signup)
@@ -315,13 +321,13 @@ class _AuthCardState extends State<AuthCard>
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.number,
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Please enter your Roll No.';
                       }
                       return null;
                     },
                     onSaved: (value) {
-                      _authData['rollNo'] = value;
+                      _authData['rollNo'] = value!;
                     },
                   ),
                 TextFormField(
@@ -330,13 +336,13 @@ class _AuthCardState extends State<AuthCard>
                   keyboardType: TextInputType.emailAddress,
                   controller: _emailController,
                   validator: (value) {
-                    if (value.isEmpty || !value.contains('@gift.edu.pk')) {
+                    if (value!.isEmpty || !value.contains('@gift.edu.pk')) {
                       return 'Invalid email!';
                     }
                     return null;
                   },
                   onSaved: (value) {
-                    _authData['email'] = value;
+                    _authData['email'] = value!;
                   },
                 ),
                 TextFormField(
@@ -345,13 +351,13 @@ class _AuthCardState extends State<AuthCard>
                   obscureText: true,
                   controller: _passwordController,
                   validator: (value) {
-                    if (value.isEmpty || value.length < 5) {
+                    if (value!.isEmpty || value.length < 5) {
                       return 'Password is too short!';
                     }
                     return null;
                   },
                   onSaved: (value) {
-                    _authData['password'] = value;
+                    _authData['password'] = value!;
                   },
                 ),
                 const SizedBox(
@@ -366,7 +372,7 @@ class _AuthCardState extends State<AuthCard>
                       ),
                       Checkbox(
                           value: isChecked,
-                          onChanged: ((value) => triggerCheckedBox(value))),
+                          onChanged: ((value) => triggerCheckedBox(value!))),
                     ],
                   ),
                 if (_authMode == AuthMode.Signup)
@@ -392,7 +398,7 @@ class _AuthCardState extends State<AuthCard>
                     enabled: _authMode == AuthMode.Signup,
                     decoration: const InputDecoration(labelText: 'CNIC'),
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Please enter your CNIC';
                       }
                       if (value.length != 13) {
@@ -401,7 +407,7 @@ class _AuthCardState extends State<AuthCard>
                       return null;
                     },
                     onSaved: (newValue) {
-                      _authData['cnic'] = newValue;
+                      _authData['cnic'] = newValue!;
                     },
                   ),
                 if (_authMode == AuthMode.Signup)
@@ -411,7 +417,7 @@ class _AuthCardState extends State<AuthCard>
                     enabled: _authMode == AuthMode.Signup,
                     decoration: const InputDecoration(labelText: 'Phone'),
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Please enter your phone';
                       }
                       if (value.length != 11) {
@@ -420,7 +426,7 @@ class _AuthCardState extends State<AuthCard>
                       return null;
                     },
                     onSaved: (newValue) {
-                      _authData['phone'] = newValue;
+                      _authData['phone'] = newValue!;
                     },
                   ),
                 if (_authMode == AuthMode.Signup)
@@ -430,13 +436,13 @@ class _AuthCardState extends State<AuthCard>
                     enabled: _authMode == AuthMode.Signup,
                     decoration: const InputDecoration(labelText: 'Location'),
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Please enter your residential area';
                       }
                       return null;
                     },
                     onSaved: (newValue) {
-                      _authData['location'] = newValue;
+                      _authData['location'] = newValue!;
                     },
                   ),
                 const SizedBox(
@@ -457,7 +463,7 @@ class _AuthCardState extends State<AuthCard>
                         ),
                       ),
                       child: Text(
-                          _authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP'),
+                          _authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP', style: TextStyle(color: Colors.white)),
                     ),
                   ),
                 Padding(

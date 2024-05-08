@@ -28,7 +28,7 @@ class DriverProfile extends StatelessWidget {
               gradient: LinearGradient(
                 colors: [
                   Colors.white,
-                  Colors.orange[200],
+                  Colors.orange[200] ?? Colors.orange,
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,

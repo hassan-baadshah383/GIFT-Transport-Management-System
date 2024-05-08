@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gtms/admin/screens/driver_management/add_driver_screen.dart';
 
 import 'package:gtms/admin/screens/driver_management/driver_detail_description.dart';
-import 'package:gtms/auth.dart';
 import 'package:gtms/driver/providers/drivers.dart';
 import 'package:provider/provider.dart';
 
@@ -18,15 +17,15 @@ class DriverDetailsWidget extends StatefulWidget {
   String cnic;
 
   DriverDetailsWidget({
-    @required this.id,
-    @required this.creatorId,
-    @required this.name,
-    @required this.email,
-    @required this.password,
-    @required this.isEnable,
-    @required this.cnic,
-    @required this.phone,
-    @required this.licenseCategory,
+    required this.id,
+    required this.creatorId,
+    required this.name,
+    required this.email,
+    required this.password,
+    required this.isEnable,
+    required this.cnic,
+    required this.phone,
+    required this.licenseCategory,
   });
 
   @override

@@ -6,7 +6,7 @@ class StudentAttendanceDetailWidget extends StatefulWidget {
   String employeeId;
 
   StudentAttendanceDetailWidget({
-    @required this.employeeId,
+    required this.employeeId,
   });
 
   @override

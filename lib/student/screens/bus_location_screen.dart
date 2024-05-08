@@ -13,8 +13,8 @@ class BusLocationScreen extends StatefulWidget {
 }
 
 class _BusLocationScreenState extends State<BusLocationScreen> {
-  GoogleMapController _mapController;
-  Map<MarkerId, Marker> _markers;
+  late GoogleMapController _mapController;
+  late Map<MarkerId, Marker> _markers;
   String busNumber = '';
   String driver = '';
 
@@ -30,7 +30,7 @@ class _BusLocationScreenState extends State<BusLocationScreen> {
     await _loadMarkers();
   }
 
-  void fetchBusData() async {
+  Future<void> fetchBusData() async {
     final stData = await Provider.of<StudentData>(context, listen: false);
     await stData.fetchBusDetails();
     busNumber = await stData.studentBus.first.number;

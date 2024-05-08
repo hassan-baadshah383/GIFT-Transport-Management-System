@@ -7,13 +7,13 @@ class StudentDetailDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     final details =
-        ModalRoute.of(context).settings.arguments as Map<String, Object>;
-    final studName = details['name'];
+        ModalRoute.of(context)!.settings.arguments as Map<String, Object>;
+    final String studName = details['name'].toString();
     final studRoll = details['rollNo'];
-    final studEmail = details['email'];
+    final String studEmail = details['email'].toString();
     final studPhone = details['phone'];
     final studCnic = details['cnic'];
-    final studLoc = details['location'];
+    final String studLoc = details['location'].toString();
 
     return Scaffold(
       appBar: AppBar(
